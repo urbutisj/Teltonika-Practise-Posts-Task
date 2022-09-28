@@ -30,6 +30,7 @@ export default {
         },
         changeModalState() {
             this.$emit('changeState', true);
+            this.$emit('postId', this.post.id);
         },
         async deletePost(id) {
             try {

@@ -2,7 +2,7 @@
     <div id="single-blog">
         <h1 class="title">{{blog.title}}</h1>
         <article>{{blog.body}}</article>
-        <button class="button is-warning">Redaguoti</button>
+        <button class="button is-warning" @click="changeModalState">Redaguoti</button>
         <button class="button is-danger" @click="deletePost(id)">Ištrinti</button>
     </div>
 </template>
@@ -11,6 +11,7 @@
     import axios from 'axios';
     import projectMixin from '../mixins/projectMixin';
     export default {
+        props: ['postId'],
         data () {
             return {
                 id: this.$route.params.id,
@@ -25,6 +26,9 @@
                 } catch (e) {
                     console.error(e);
                 }
+            },
+            changeModalState() {
+                this.$emit('changeState', this.id);
             },
             async deletePost(id) {
             try {

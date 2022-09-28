@@ -2,8 +2,8 @@
   <div id="app">
     <app-header v-on:changeState="updateAddModalState"/>
     <app-new-post-modal v-if="showAddModal" @close="showAddModal = false" :fetchPosts="fetchPosts"/>
-    <app-edit-post-modal v-if="showEditModal" @close="showEditModal = false" v-bind:posts="posts" />
-    <router-view :posts="posts"  :fetchPosts="fetchPosts" v-bind:updateEditModalState="updateEditModalState" v-on:changeState="updateEditModalState"></router-view>
+    <app-edit-post-modal v-if="showEditModal" :fetchPosts="fetchPosts" :postId="postId" @close="showEditModal = false" :posts="posts" />
+    <router-view :posts="posts" :fetchPosts="fetchPosts" :postId="postId" v-bind:updateEditModalState="updateEditModalState" v-on:changeState="updateEditModalState"></router-view>
     <app-footer />
   </div>
 </template>
@@ -25,7 +25,8 @@
         return {
             posts: {},
             showAddModal: false,
-            showEditModal: false
+            showEditModal: false,
+            postId: null
         }
     },
     methods: {
@@ -34,6 +35,8 @@
       },
       updateEditModalState(state) {
         this.showEditModal = state;
+        this.postId = state;
+        console.log(this.postId);
       },
       openModal() {
         this.classList.add('is-active');

@@ -15,7 +15,7 @@
               </form>
             </div>
             <div class="modal-footer">
-                <button class="button is-primary" @click="post">
+                <button class="button is-primary" @click="put">
                   Išsaugoti
                 </button>
                 <button class="button" @click="$emit('close')">
@@ -40,26 +40,23 @@
   import moment from 'moment';
   export default {
     name: 'AddNewPost',
-    props: ['posts'],
+    props: ['posts', 'postId', 'fetchPosts'],
     data() {
       return{
-          id : 1,
-          blogpost: {
-              title: this.posts.title,
-              body: this.posts.body,
-              updated_at: moment().format('YYYY-MM-DD HH:mm:ss'),
-          },
+          id : this.postId,
           postData: {},
           submitted: false,
       }
     },
     methods: {
-      async post() {
+      async put() {
         try {
-          await axios.post(`http://localhost:3000/posts`, {
-              title: this.blogpost.title,
-              body: this.blogpost.body,
-              updated_at: this.blogpost.updated_at
+          await axios.put(`http://localhost:3000/posts/` + this.id, {
+              title: this.postData.title,
+              body: this.postData.body,
+              author: this.postData.author,
+              created_at: this.postData.created_at,
+              updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
           })
           .then(function (data) {
               console.log(data);
@@ -68,6 +65,8 @@
               console.log(error);
           });
           this.submitted = true;
+          this.fetchPosts();
+          this.close();
         } catch (e) {
           console.error(e);
         }
