@@ -1,0 +1,119 @@
+{
+  "autoriai": [
+    {
+      "id": 1,
+      "name": "Justinas",
+      "created_at": "2022-09-21 10:00"
+    },
+    {
+      "id": 2,
+      "name": "Tomas",
+      "created_at": "2021-09-21 10:15"
+    },
+    {
+      "id": 3,
+      "name": "Linas",
+      "created_at": "2022-09-21 10:30"
+    },
+    {
+      "id": 4,
+      "name": "Juozas",
+      "created_at": "2022-09-21 10:45"
+    },
+    {
+      "id": 5,
+      "name": "Mantas",
+      "created_at": "2022-09-21 11:00"
+    }
+  ],
+  "straipsniai": [
+    {
+      "title": "1 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 1
+    },
+    {
+      "title": "2 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 2
+    },
+    {
+      "title": "3 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 3
+    },
+    {
+      "title": "4 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 4
+    },
+    {
+      "title": "5 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 5
+    },
+    {
+      "title": "6 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 6
+    },
+    {
+      "title": "7 Straipsnis",
+      "body": "Test",
+      "author": "Juozas",
+      "created_at": "2022-09-23 11:32:34",
+      "updated_at": "",
+      "id": 7
+    },
+    {
+      "title": "Rimvydas",
+      "body": "Testas",
+      "author": "Tomas",
+      "created_at": "2022-09-27 13:57:00",
+      "updated_at": "",
+      "id": 8
+    },
+    {
+      "title": "Straipsnis 18",
+      "body": "TEstas",
+      "author": "Linas",
+      "created_at": "2022-09-27 15:05:47",
+      "updated_at": "",
+      "id": 9
+    },
+    {
+      "title": "Test",
+      "body": "Test",
+      "author": "Mantas",
+      "created_at": "2022-09-28 09:56:29",
+      "updated_at": "",
+      "id": 10
+    },
+    {
+      "title": "Straipsnis",
+      "body": "Testnias",
+      "author": "Mantas",
+      "created_at": "2022-09-28 10:59:12",
+      "updated_at": "",
+      "id": 11
+    }
+  ]
+}
