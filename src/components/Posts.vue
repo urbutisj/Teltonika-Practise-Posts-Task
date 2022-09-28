@@ -19,19 +19,24 @@
 
 <script>
     import Post from './Post.vue';
-    import searchMixin from '../mixins/searchMixin';
+    import projectMixin from '../mixins/projectMixin';
     export default {
         name: 'Posts',
-        props: ['posts', 'updateEditModalState'],
+        props: ['updateEditModalState'],
         components: {
             'post' : Post
     },
     data() {
         return {
             search: '',
+            posts: []
         }
     },
-    mixins: [searchMixin]
+    async created() {
+        await this.fetchPosts();
+        console.log(this.posts);
+    },
+    mixins: [projectMixin ]
     
 };
 </script>

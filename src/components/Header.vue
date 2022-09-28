@@ -32,7 +32,6 @@ export default {
     props: ['showAddModal'],
     data() {
       return{
-        // addModal: this.showAddModal,
       }
     },
     methods: {

@@ -8,22 +8,15 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import projectMixin from '../mixins/projectMixin';
     export default {
         data () {
         return {
-            id: this.$route.params.id,
             blog: {}
         }
     },
-    async created() {
-        try {
-            const post = await axios.get(`http://localhost:3000/straipsniai/` + this.id);
-            this.blog = post.data;
-        } catch (e) {
-            console.error(e);
-        }
+    created() {
+        this.singlePostPage()    
     },
     mixins: [projectMixin]
 }

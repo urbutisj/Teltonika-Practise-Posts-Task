@@ -1,19 +1,14 @@
 <template>
   <div id="app">
     <app-header v-on:changeState="updateAddModalState"/>
-    <app-new-post-modal 
-      v-if="showAddModal" 
-      @close="showAddModal = false"
-      v-bind:fetchPosts="fetchPosts"/>
+    <app-new-post-modal v-if="showAddModal" @close="showAddModal = false"/>
     <app-edit-post-modal v-if="showEditModal" @close="showEditModal = false" v-bind:posts="posts" />
-    <router-view v-bind:posts="posts"  v-bind:updateEditModalState="updateEditModalState" v-bind:fetchPosts="fetchPosts" v-on:changeState="updateEditModalState"></router-view>
+    <router-view  v-bind:updateEditModalState="updateEditModalState" v-on:changeState="updateEditModalState"></router-view>
     <app-footer />
   </div>
 </template>
 
 <script>
-  import axios from 'axios';
-  import projectMixin from './mixins/projectMixin'
   import Posts from "./components/Posts.vue"
   import Header from "./components/Header.vue"
   import AddNewPostModal from './components/AddNewPost.vue';
@@ -29,8 +24,6 @@
     },
     data() {
         return {
-            posts: [],
-            authors: [],
             showAddModal: false,
             showEditModal: false
         }
@@ -45,14 +38,7 @@
       openModal() {
         this.classList.add('is-active');
       }
-    },
-    mounted(){
-      this.fetchPosts();
-    },
-    // async beforeUpdated() {
-    //   this.fetchPosts();
-    // },
-    mixins: [projectMixin]
+    }
   }
 </script>
 
