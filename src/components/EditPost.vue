@@ -57,12 +57,6 @@
               author: this.postData.author,
               created_at: this.postData.created_at,
               updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
-          })
-          .then(function (data) {
-              console.log(data);
-          })
-          .catch(function (error) {
-              console.log(error);
           });
           this.submitted = true;
           this.fetchPosts();
