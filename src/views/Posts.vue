@@ -5,7 +5,7 @@
             <input type="text" v-model="search" class="input mb-3" placeholder="Straipsnių paiešką..."/>
             <div class="columns" v-if="posts.length > 0">
                 <div class="column post is-half" v-for = "post of filteredBlogs" :key="post.id">
-                    <post class="box"  :post="post" v-on:changeState="updateEditModalState"/>
+                    <post class="box" :fetchPosts="fetchPosts"  :post="post" v-on:changeState="updateEditModalState"/>
                 </div>
             </div>
             <div v-else>
@@ -18,21 +18,21 @@
 </template>
 
 <script>
-    import Post from './Post.vue';
+    
+    import Post from '../components/Post.vue';
     import projectMixin from '../mixins/projectMixin';
     export default {
         name: 'Posts',
-        props: ['updateEditModalState'],
+        props: ['updateEditModalState', 'fetchPosts', 'posts'],
         components: {
             'post' : Post
     },
     data() {
         return {
             search: '',
-            posts: []
         }
     },
-    async created() {
+    async mounted() {
         await this.fetchPosts();
         console.log(this.posts);
     },

@@ -43,11 +43,10 @@
 
 <script>
     import axios from 'axios';
-    import projectMixin from '../mixins/projectMixin'
     import moment from 'moment';
     export default {
       name: 'AddNewPost',
-      // props: ['authors'],
+      props: ['fetchPosts'],
       data() {
         return{
             authors: this.authors,
@@ -62,9 +61,18 @@
         }
       },
       methods: {
+        async fetchAuthors() {
+            try {
+                const authors_res = await axios.get(`http://localhost:3000/authors`);
+                this.authors = authors_res.data;
+                console.log(this.authors);
+            } catch (e) {
+                console.error(e);
+            }
+        },
        async post() {
             try {
-                await axios.post(`http://localhost:3000/straipsniai`, {
+                await axios.post(`http://localhost:3000/posts`, {
                     title: this.blogpost.title,
                     body: this.blogpost.body,
                     author: this.blogpost.author,
@@ -94,7 +102,6 @@
       mounted() {
         this.fetchAuthors();
       },
-      mixins: [projectMixin]
     };
 </script>
   

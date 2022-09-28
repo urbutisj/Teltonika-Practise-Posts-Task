@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import projectMixin from '../mixins/projectMixin';
+import axios from 'axios';
 export default {
     name: 'Post',
-    props: ["post", 'showEditModal'],
+    props: ["post", 'showEditModal', 'fetchPosts'],
     data() {
         return {
             posts: [],
@@ -30,9 +30,16 @@ export default {
         },
         changeModalState() {
             this.$emit('changeState', true);
+        },
+        async deletePost(id) {
+            try {
+                await axios.delete('http://localhost:3000/posts/' + id);
+                await this.fetchPosts();
+            } catch (e) {
+                console.error(e);
+            }
         }
-    },
-    mixins: [projectMixin]
+    }
 }
 </script>
 
