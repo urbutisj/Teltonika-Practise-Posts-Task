@@ -2,8 +2,8 @@
   <div id="app">
     <app-header v-on:changeState="updateAddModalState"/>
     <app-new-post-modal v-if="showAddModal" @close="showAddModal = false" :fetchPosts="fetchPosts"/>
-    <app-edit-post-modal v-if="showEditModal" :fetchPosts="fetchPosts" :postId="postId" @close="showEditModal = false" :posts="posts" />
-    <router-view :posts="posts" :fetchPosts="fetchPosts" v-bind:updateEditModalState="updateEditModalState" v-on:changeState="updateEditModalState"></router-view>
+    <app-edit-post-modal v-if="showEditModal" :fetchPostData="fetchPostData" :postData="postData" :fetchPosts="fetchPosts" :postId="postId" @close="showEditModal = false" :posts="posts" />
+    <router-view :posts="posts" :fetchPosts="fetchPosts" :postData="postData"  v-bind:updateEditModalState="updateEditModalState" v-on:changeState="updateEditModalState" :fetchPostData="fetchPostData"></router-view>
     <app-footer />
   </div>
 </template>
@@ -24,6 +24,7 @@
     data() {
         return {
             posts: {},
+            postData: {},
             showAddModal: false,
             showEditModal: false,
             postId: null
@@ -48,7 +49,15 @@
           } catch (e) {
               console.error(e);
           }
-      }
+      },
+      async fetchPostData(id) {
+            try {
+                const post = await axios.get(`http://localhost:3000/posts/` + id);
+                this.postData = post.data;
+            } catch (e) {
+                console.error(e);
+            }
+        },
     }
   }
 </script>

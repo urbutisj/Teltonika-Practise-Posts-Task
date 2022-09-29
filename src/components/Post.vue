@@ -18,7 +18,7 @@
 
 <script>
 import axios from 'axios';
-import notify from '../mixins/projectMixin';
+import projectMixins from '../mixins/projectMixin';
 export default {
     name: 'Post',
     props: ["post", 'showEditModal', 'fetchPosts'],
@@ -34,19 +34,9 @@ export default {
         changeModalState() {
             this.$emit('changeState', true);
             this.$emit('postId', this.post.id);
-        },
-        async deletePost(id) {
-            try {
-                await axios.delete('http://localhost:3000/posts/' + id);
-                await this.fetchPosts();
-                this.notify('success', 'Straipsnis ištrintas sėkmingai.');
-            } catch (e) {
-                console.error(e);
-                this.notify('error', e.response.data.error);
-            }
         }
     },
-    mixins: [notify]
+    mixins: [projectMixins]
 }
 </script>
 

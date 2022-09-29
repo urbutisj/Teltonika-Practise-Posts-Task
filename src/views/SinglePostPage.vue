@@ -17,41 +17,22 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import projectMixin from '../mixins/projectMixin';
     export default {
+        props: ['fetchPostData', 'postData'],
         data () {
             return {
-                id: this.$route.params.id,
-                postData: {}
+                id: this.$route.params.id
             }
         },
         methods: {
-            async fetchPostData() {
-                try {
-                    const post = await axios.get(`http://localhost:3000/posts/` + this.id);
-                    this.postData = post.data;
-                } catch (e) {
-                    console.error(e);
-                }
-            },
             changeModalState() {
                 this.$emit('changeState', this.id);
-            },
-            async deletePost(id) {
-            try {
-                await axios.delete('http://localhost:3000/posts/' + id);
-                this.$router.push("/");
-                this.notify('success', 'Straipsnis ištrintas sėkmingai.');
-            } catch (e) {
-                console.error(e);
-                this.notify('error', e.response.data.error);
-            }
-        }
-            
+            },            
         },
         async created() {
-            await this.fetchPostData();  
+            await this.fetchPostData(this.id);
+            console.log(this.postData.id);
         },
     mixins: [projectMixin]
 }

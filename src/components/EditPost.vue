@@ -40,11 +40,10 @@
   import moment from 'moment';
   export default {
     name: 'AddNewPost',
-    props: ['posts', 'postId', 'fetchPosts'],
+    props: ['posts', 'postId', 'fetchPosts', 'fetchPostData', 'postData'],
     data() {
       return{
-          id : this.postId,
-          postData: {},
+          id : this.postId
       }
     },
     methods: {
@@ -57,9 +56,14 @@
               created_at: this.postData.created_at,
               updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
           });
-          this.submitted = true;
           this.notify('success', 'Straipsnis atnaujintas sėkmingai!');
-          this.fetchPosts();
+          if(this.$route.path == "/") {
+              this.fetchPosts();
+              console.log("Update from main page")
+          } else {
+              this.fetchPostData(this.id);
+              console.log("Update from single post page")
+          }
           this.close();
         } catch (e) {
           console.error(e);
@@ -69,17 +73,9 @@
       close() {
         this.$emit('close');
       },
-      async fetchPostData() {
-        try {
-            const post = await axios.get(`http://localhost:3000/posts/` + this.id);
-            this.postData = post.data;
-        } catch (e) {
-            console.error(e);
-        }
-      },
     },
     async created() {
-          await this.fetchPostData();
+        await this.fetchPostData(this.id);
     },
     mixins: [notify]
   };
