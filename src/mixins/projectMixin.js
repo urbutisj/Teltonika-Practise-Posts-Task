@@ -1,4 +1,16 @@
+import Noty from 'noty';
 export default{
+    methods: {
+        notify(type, text, layout = 'topRight'){
+            new Noty({
+                text,
+                type,
+                layout,
+                theme: 'relax',
+                timeout: 1500,
+            }).show();
+        }
+    },
     computed: {
         filteredBlogs () {
             return this.posts.filter((blog) => {

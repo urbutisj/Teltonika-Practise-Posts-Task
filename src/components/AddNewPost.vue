@@ -43,6 +43,7 @@
 
 <script>
     import axios from 'axios';
+    import notify from '../mixins/projectMixin';
     import moment from 'moment';
     export default {
       name: 'AddNewPost',
@@ -86,10 +87,12 @@
                     console.log(error);
                 });
                 this.submitted = true;
+                this.notify('success', 'Straipsnis sukurtas sėkmingai.');
                 this.close();
                 this.fetchPosts();
             } catch (e) {
                 console.error(e);
+                this.notify('error', e.response.data.error);
             }
         },
         open() {
@@ -102,6 +105,7 @@
       mounted() {
         this.fetchAuthors();
       },
+      mixins: [notify]
     };
 </script>
   

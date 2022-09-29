@@ -1,5 +1,6 @@
 <template>
-  <transition name="modal">
+  <div>
+    <transition name="modal">
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-container">
@@ -15,28 +16,27 @@
               </form>
             </div>
             <div class="modal-footer">
-                <button class="button is-primary" @click="put">
-                  Išsaugoti
-                </button>
-                <button class="button" @click="$emit('close')">
-                  Atšaukti
-                </button>
+              <div class="action-buttons">
+                    <button class="button is-primary" @click="put">
+                      Išsaugoti
+                    </button>
+                    <button class="button" @click="$emit('close')">
+                      Atšaukti
+                    </button>
+                  </div>
             </div>
           </div>
         </div>
-        <div v-if="submitted" >
-          <div class="notification is-primary is-light">
-              <button class="delete"></button>
-              Straipsnis redaguotas sėkmingai.
-          </div>
-        </div>
-
+        
       </div>
     </transition>
+  </div>
+  
 </template>
 
 <script>
   import axios from 'axios';
+  import notify from '../mixins/projectMixin'
   import moment from 'moment';
   export default {
     name: 'AddNewPost',
@@ -45,7 +45,6 @@
       return{
           id : this.postId,
           postData: {},
-          submitted: false,
       }
     },
     methods: {
@@ -59,10 +58,12 @@
               updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
           });
           this.submitted = true;
+          this.notify('success', 'Straipsnis atnaujintas sėkmingai.');
           this.fetchPosts();
           this.close();
         } catch (e) {
           console.error(e);
+          this.notify('error', e.response.data.error);
         }
       },
       close() {
@@ -79,7 +80,8 @@
     },
     async created() {
           await this.fetchPostData();
-    }
+    },
+    mixins: [notify]
   };
 </script>
 
