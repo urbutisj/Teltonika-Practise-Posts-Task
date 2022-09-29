@@ -58,7 +58,7 @@
               updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
           });
           this.submitted = true;
-          this.notify('success', 'Straipsnis atnaujintas sėkmingai.');
+          this.notify('success', 'Straipsnis atnaujintas sėkmingai!');
           this.fetchPosts();
           this.close();
         } catch (e) {
