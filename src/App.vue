@@ -1,9 +1,28 @@
 <template>
   <div id="app">
-    <app-header v-on:changeState="updateAddModalState"/>
-    <app-new-post-modal v-if="showAddModal" @close="showAddModal = false" :fetchPosts="fetchPosts"/>
-    <app-edit-post-modal v-if="showEditModal" :fetchPostData="fetchPostData" :postData="postData" :fetchPosts="fetchPosts" :postId="postId" @close="showEditModal = false" :posts="posts" />
-    <router-view :posts="posts" :fetchPosts="fetchPosts" :postData="postData"  v-bind:updateEditModalState="updateEditModalState" v-on:changeState="updateEditModalState" :fetchPostData="fetchPostData"></router-view>
+    <app-header @changeState="updateAddModalState"/>
+    <app-new-post-modal 
+      v-if="showAddModal" 
+      @close="showAddModal = false" 
+      :fetchPosts="fetchPosts"
+    />
+    <app-edit-post-modal 
+      v-if="showEditModal"
+      @close="showEditModal = false"
+      :fetchPosts="fetchPosts"
+      :fetchPostData="fetchPostData"
+      :posts="posts"  
+      :postData="postData"
+      :postId="postId"  
+       />
+    <router-view
+      :fetchPosts="fetchPosts" 
+      :fetchPostData="fetchPostData"
+      :posts="posts"
+      :updateEditModalState="updateEditModalState" 
+      @changeState="updateEditModalState"
+      :postData="postData" > 
+    </router-view>
     <app-footer />
   </div>
 </template>
@@ -37,27 +56,23 @@
       updateEditModalState(state) {
         this.showEditModal = state;
         this.postId = state;
-        console.log(this.postId);
-      },
-      openModal() {
-        this.classList.add('is-active');
       },
       async fetchPosts() {
-          try {
-              const posts_res = await axios.get(`http://localhost:3000/posts`);
-              this.posts = posts_res.data;
-          } catch (e) {
-              console.error(e);
-          }
+        try {
+            const posts_res = await axios.get(`http://localhost:3000/posts`);
+            this.posts = posts_res.data;
+        } catch (e) {
+            console.error(e);
+        }
       },
       async fetchPostData(id) {
-            try {
-                const post = await axios.get(`http://localhost:3000/posts/` + id);
-                this.postData = post.data;
-            } catch (e) {
-                console.error(e);
-            }
-        },
+        try {
+            const post = await axios.get(`http://localhost:3000/posts/` + id);
+            this.postData = post.data;
+        } catch (e) {
+            console.error(e);
+        }
+      },
     }
   }
 </script>

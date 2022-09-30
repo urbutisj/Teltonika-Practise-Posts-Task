@@ -1,11 +1,11 @@
 <template>
-    <div id="single-blog" class="container">
+    <div class="container">
         <h1 class="title">{{postData.title}}</h1>
         <div class="my-2" v-if="postData.created_at > postData.updated_at">
-            <p><span>Sukurta:</span> {{ postData.created_at | formatDate }}</p>
+            <p><span>Sukurta:</span> {{ postData.created_at }}</p>
         </div>
         <div class="my-2" v-else>
-            <p><span>Atnaujinta:</span> {{ postData.updated_at | formatDate }}</p>
+            <p><span>Atnaujinta:</span> {{ postData.updated_at }}</p>
         </div>
         <p class="my-2"><span>Sukūrė:</span> {{postData.author}}</p>
         <p class="body-text">{{postData.body}}</p>
@@ -32,14 +32,13 @@
         },
         async created() {
             await this.fetchPostData(this.id);
-            console.log(this.postData.id);
         },
     mixins: [projectMixin]
 }
 </script>
 
-<style>
-#single-blog{
+<style scoped>
+.container{
     padding: 3rem 0;
 }
 p span {
@@ -47,7 +46,7 @@ p span {
 } 
 
 .body-text {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
 }
 
 .action-buttons button:not(:last-child){

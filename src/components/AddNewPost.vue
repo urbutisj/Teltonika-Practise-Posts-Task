@@ -40,7 +40,7 @@
                       <button class="button is-primary" type="submit">
                         Išsaugoti
                       </button>
-                      <button class="button" @click="$emit('close')">
+                      <button class="button" @click.prevent="$emit('close')">
                         Atšaukti
                       </button>
                     </div>
@@ -74,8 +74,7 @@
               titleMessage: 'Įrašykite straipsnio pavadinimą.',
               bodyMessage: 'Įkelkite turinio tekstą.',
               authorMessage: 'Pasirinkite autorių.'
-            },
-            submitted: false,
+            }
         }
       },
       methods: {
@@ -87,9 +86,6 @@
             } catch (e) {
                 console.error(e);
             }
-        },
-        onSubmit () {
-          this.post();
         },
         async post() {
           try {
@@ -106,7 +102,6 @@
               .catch(function (error) {
                   console.log(error);
               });
-              this.submitted = true;
               this.notify('success', 'Straipsnis sukurtas sėkmingai.');
               this.close();
               this.fetchPosts();
@@ -115,15 +110,15 @@
               this.notify('error', e.response.data.error);
           }
         },
-        open() {
-          this.$emit('open');
+        onSubmit () {
+          this.post();
         },
         close() {
           this.$emit('close');
         },
       },
-      mounted() {
-        this.fetchAuthors();
+      async created() {
+        await this.fetchAuthors();
       },
       mixins: [notify]
     };
@@ -195,7 +190,8 @@ div.is-valid span {
   color: #BCF5BC;
 }
 
-div.is-valid input {
+div.is-valid input,
+div.is-invalid textarea  {
   border: 1px #BCF5BC solid;
 }
 

@@ -5,10 +5,20 @@
             <input type="text" v-model="search" class="input mb-3" placeholder="Straipsnių paiešką..."/>
             <div class="columns" v-if="posts.length > 0">
                 <div class="column post is-half" v-for = "post in pageOfItems" :key="post.id">
-                    <post class="box" :fetchPosts="fetchPosts"  :post="post" v-on:changeState="updateEditModalState" v-on:postId="updateEditModalState"/>
+                    <post 
+                        class="box" 
+                        :fetchPosts="fetchPosts"  
+                        :post="post" 
+                        @changeState="updateEditModalState" 
+                        v-on:postId="updateEditModalState"
+                    />
                 </div>
                 <div class="pagination-row">
-                    <app-pagination :items="filteredBlogs" :pageSize="10" @changePage="onChangePage"></app-pagination>
+                    <app-pagination 
+                        :items="filteredBlogs" 
+                        :pageSize="10"
+                        @changePage="onChangePage">
+                    </app-pagination>
                 </div>
             </div>
             <div v-else>
@@ -39,14 +49,11 @@
     },
     methods: {
         onChangePage(pageOfItems) {
-            // update page of items
             this.pageOfItems = pageOfItems;
-            console.log(this.pageOfItems);
         }
     },
     async mounted() {
         await this.fetchPosts();
-        console.log(this.posts);
     },
     mixins: [projectMixin ]
     

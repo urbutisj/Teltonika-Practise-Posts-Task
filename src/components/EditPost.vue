@@ -1,5 +1,4 @@
 <template>
-  <div>
     <transition name="modal">
       <div class="modal-mask">
         <div class="modal-wrapper">
@@ -28,7 +27,7 @@
                     <button class="button is-primary" type="submit">
                       Išsaugoti
                     </button>
-                    <button class="button" @click="$emit('close')">
+                    <button class="button" @click.prevent="$emit('close')">
                       Atšaukti
                     </button>
                   </div>
@@ -40,8 +39,6 @@
         
       </div>
     </transition>
-  </div>
-  
 </template>
 
 <script>

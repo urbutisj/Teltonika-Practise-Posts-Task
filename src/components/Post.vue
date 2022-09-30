@@ -3,10 +3,10 @@
         <h2 class="title">{{post.title}}</h2>
         <p><span>Autorius:</span> {{post.author}}</p>
         <div class="my-2" v-if="post.created_at > post.updated_at">
-            <p><span>Sukurta:</span> {{ post.created_at | formatDate }}</p>
+            <p><span>Sukurta:</span> {{ post.created_at }}</p>
         </div>
         <div class="my-2" v-else>
-            <p><span>Atnaujinta:</span> {{ post.updated_at | formatDate }}</p>
+            <p><span>Atnaujinta:</span> {{ post.updated_at }}</p>
         </div>
         <div class="action-buttons">
             <button @click="changeRoute('/blog-post/' + post.id)" class="button is-link" exact>Daugiau</button>
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import projectMixins from '../mixins/projectMixin';
 export default {
     name: 'Post',

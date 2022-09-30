@@ -16,7 +16,7 @@
           
             <div id="navbarBasicExample" class="navbar-menu">
               <div class="navbar-start">
-                <a class="navbar-item " id="show-modal" v-on:click="changeModalState">
+                <a class="navbar-item" @click="changeModalState">
                   Naujas straipsnis  
                 </a>    
               </div>
@@ -29,7 +29,6 @@
 <script>
 
 export default {
-    props: ['showAddModal'],
     data() {
       return{
       }
@@ -43,15 +42,16 @@ export default {
 </script>
 
 <style>
-.navbar {
-    justify-content: space-between;
-    background: transparent;
-}
+  .navbar {
+      justify-content: space-between;
+      background: transparent;
+  }
 
-.navbar-menu {
-  flex-grow: 0;
-}
-.navbar-item, .navbar-link {
-    color: #fff;
-}
+  .navbar-menu {
+    flex-grow: 0;
+  }
+  .navbar-item, .navbar-link ,
+  .navbar-burger span{
+      color: #fff;
+  }
 </style>

@@ -1,11 +1,6 @@
 import Noty from 'noty';
 import axios from 'axios';
 export default{
-    data() {
-        return {
-            
-        }
-    },
     methods: {
         notify(type, text, layout = 'topRight'){
             new Noty({
