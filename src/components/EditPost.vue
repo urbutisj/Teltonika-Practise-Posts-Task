@@ -8,22 +8,32 @@
                 <h4 class="title is-size-4">Redaguoti straipsnį</h4> 
             </div>
             <div class="modal-body">
-              <form>
-                  <label class="label" for="title">Pavadinimas:</label>
-                  <input type="text" id="title" v-model="postData.title" class="input mb-3" required />
-                  <label class="label"  for="body">Turinys:</label>
-                  <textarea id="body" v-model="postData.body" class="textarea mb-3" required></textarea>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <div class="action-buttons">
-                    <button class="button is-primary" @click="put">
+              <ValidationObserver v-slot="{ handleSubmit }">
+                <form @submit.prevent="handleSubmit(onSubmit)">
+                  <ValidationProvider :custom-messages="{ required: customMessages.titleMessage }" rules="required" v-slot="{ classes, errors}">
+                      <div :class="classes">
+                        <label class="label" for="title">Pavadinimas:</label>
+                        <input type="text" id="title" v-model="postData.title" class="input mb-3" />
+                        <span>{{ errors[0] }}</span>
+                      </div>
+                  </ValidationProvider> 
+                  <ValidationProvider :custom-messages="{ required: customMessages.bodyMessage }"  rules="required" v-slot="{ classes,errors }">
+                      <div :class="classes">
+                        <label class="label"  for="body">Turinys:</label>
+                        <textarea id="body" v-model="postData.body" class="textarea mb-3"></textarea>
+                      <span>{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                  <div class="action-buttons">
+                    <button class="button is-primary" type="submit">
                       Išsaugoti
                     </button>
                     <button class="button" @click="$emit('close')">
                       Atšaukti
                     </button>
                   </div>
+                </form>
+              </ValidationObserver>
             </div>
           </div>
         </div>
@@ -43,7 +53,11 @@
     props: ['posts', 'postId', 'fetchPosts', 'fetchPostData', 'postData'],
     data() {
       return{
-          id : this.postId
+          id : this.postId,
+          customMessages: {
+              titleMessage: 'Įrašykite straipsnio pavadinimą.',
+              bodyMessage: 'Įkelkite turinio tekstą.',
+          },
       }
     },
     methods: {
@@ -70,6 +84,9 @@
           this.notify('error', e.response.data.error);
         }
       },
+      onSubmit () {
+          this.put();
+      },
       close() {
         this.$emit('close');
       },
@@ -85,48 +102,69 @@
 
 <style>
 .modal-mask {
-position: fixed;
-z-index: 9998;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.5);
-display: table;
-transition: opacity 0.3s ease;
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
 }
 .modal-wrapper {
-display: table-cell;
-vertical-align: middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 .modal-container {
-width: 50%;
-margin: 0px auto;
-padding: 20px 30px;
-background-color: #fff;
-border-radius: 10px;
-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-transition: all 0.3s ease;
+  width: 50%;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
 }
 .modal-body {
   display: flex;
   flex-direction: column;
   margin: 2rem 0;
 }
+
+.action-buttons{
+  margin-top: 1rem;
+}
 .modal-enter {
-opacity: 0;
+  opacity: 0;
 }
 .modal-leave-active {
-opacity: 0;
+  opacity: 0;
 }
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
--webkit-transform: scale(1.1);
-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }
-.notification {
-  position: absolute;
-  right: 0;
-  top: 0;
+
+div.is-invalid span {
+  color: #FF8181;
 }
+
+div.is-invalid input,
+div.is-invalid textarea {
+  border: 1px #FF8181 solid;
+}
+
+div.is-valid span {
+  color: #BCF5BC;
+}
+
+div.is-valid input {
+  border: 1px #BCF5BC solid;
+}
+
+span {
+  display: block;
+}
+
 </style>

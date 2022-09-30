@@ -7,36 +7,48 @@
                   <h4 class="title is-size-4">Pridėti naują straipsnį</h4> 
               </div>
               <div class="modal-body">
-                <form>
-                    <label class="label" for="title">Pavadinimas:</label>
-                    <input type="text" id="title" v-model="blogpost.title" class="input mb-3" required />
-                    <label class="label"  for="body">Turinys:</label>
-                    <textarea id="body" v-model="blogpost.body" class="textarea mb-3"   required></textarea>
-                    <label class="label" for="author">Autorius:</label>
-                    <div class="select is-normal">
-                        <select v-model="blogpost.author" required>
-                            <option v-for="author in authors">{{author.name}}</option>
-                        </select>
+                <ValidationObserver v-slot="{ handleSubmit }">
+                  <form @submit.prevent="handleSubmit(onSubmit)">
+                    <ValidationProvider :custom-messages="{ required: customMessages.titleMessage }" rules="required" v-slot="{ classes, errors}">
+                      <div :class="classes">
+                        <label class="label" for="title">Pavadinimas:</label>
+                        <input type="text" id="title" v-model="blogpost.title" class="input mb-3"/>
+                        <span>{{ errors[0] }}</span>
+                      </div>
+                      
+                    </ValidationProvider> 
+                    <ValidationProvider :custom-messages="{ required: customMessages.bodyMessage }"  rules="required" v-slot="{ classes,errors }">
+                      <div :class="classes">
+                        <label class="label"  for="body">Turinys:</label>
+                      <textarea id="body" v-model="blogpost.body" class="textarea mb-3"></textarea>
+                      <span>{{ errors[0] }}</span>
                     </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                  <button class="button is-primary" @click="post">
-                    Išsaugoti
-                  </button>
-                  <button class="button" @click="$emit('close')">
-                    Atšaukti
-                  </button>
+                      
+                    </ValidationProvider>
+                    <ValidationProvider :custom-messages="{ required: customMessages.authorMessage }"   rules="required" v-slot="{classes, errors }">
+                      <div :class="classes">
+                        <label class="label" for="author">Autorius:</label>
+                        <div class="select is-normal">
+                            <select v-model="blogpost.author">
+                                <option v-for="author in authors">{{author.name}}</option>
+                            </select>
+                        </div>
+                        <span>{{ errors[0] }}</span>
+                      </div>
+                    </ValidationProvider>
+                    <div class="action-buttons">
+                      <button class="button is-primary" type="submit">
+                        Išsaugoti
+                      </button>
+                      <button class="button" @click="$emit('close')">
+                        Atšaukti
+                      </button>
+                    </div>
+                  </form>
+                </ValidationObserver>
               </div>
             </div>
           </div>
-          <div v-if="submitted" >
-            <div class="notification is-primary is-light">
-                <button class="delete"></button>
-                Straipsnis sukurtas sėkmingai.
-            </div>
-          </div>
-          
         </div>
       </transition>
 </template>
@@ -58,6 +70,11 @@
                 created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
                 updated_at: ""
             },
+            customMessages: {
+              titleMessage: 'Įrašykite straipsnio pavadinimą.',
+              bodyMessage: 'Įkelkite turinio tekstą.',
+              authorMessage: 'Pasirinkite autorių.'
+            },
             submitted: false,
         }
       },
@@ -71,29 +88,32 @@
                 console.error(e);
             }
         },
-       async post() {
-            try {
-                await axios.post(`http://localhost:3000/posts`, {
-                    title: this.blogpost.title,
-                    body: this.blogpost.body,
-                    author: this.blogpost.author,
-                    created_at: this.blogpost.created_at,
-                    updated_at: this.blogpost.updated_at
-                })
-                .then(function (data) {
-                    console.log(data);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-                this.submitted = true;
-                this.notify('success', 'Straipsnis sukurtas sėkmingai.');
-                this.close();
-                this.fetchPosts();
-            } catch (e) {
-                console.error(e);
-                this.notify('error', e.response.data.error);
-            }
+        onSubmit () {
+          this.post();
+        },
+        async post() {
+          try {
+              await axios.post(`http://localhost:3000/posts`, {
+                  title: this.blogpost.title,
+                  body: this.blogpost.body,
+                  author: this.blogpost.author,
+                  created_at: this.blogpost.created_at,
+                  updated_at: this.blogpost.updated_at
+              })
+              .then(function (data) {
+                  console.log(data);
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+              this.submitted = true;
+              this.notify('success', 'Straipsnis sukurtas sėkmingai.');
+              this.close();
+              this.fetchPosts();
+          } catch (e) {
+              console.error(e);
+              this.notify('error', e.response.data.error);
+          }
         },
         open() {
           this.$emit('open');
@@ -111,7 +131,7 @@
   
 
 
-<style>
+<style scoped>
 
 .modal-mask {
   position: fixed;
@@ -145,8 +165,9 @@
     flex-direction: column;
     margin: 2rem 0;
 }
-
-
+.action-buttons{
+  margin-top: 1rem;
+}
 .modal-enter {
   opacity: 0;
 }
@@ -161,11 +182,25 @@
   transform: scale(1.1);
 }
 
-.notification {
-    position: absolute;
-    right: 0;
-    top: 0;
+div.is-invalid span {
+  color: #FF8181;
 }
 
+div.is-invalid input,
+div.is-invalid textarea {
+  border: 1px #FF8181 solid;
+}
+
+div.is-valid span {
+  color: #BCF5BC;
+}
+
+div.is-valid input {
+  border: 1px #BCF5BC solid;
+}
+
+span {
+  display: block;
+}
 
 </style>
