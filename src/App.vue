@@ -57,9 +57,6 @@
         this.showEditModal = state;
         this.postId = state;
       },
-      getPostId() {
-
-      },
       async fetchPosts() {
         try {
             const posts_res = await axios.get(`http://localhost:3000/posts`);
