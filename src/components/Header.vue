@@ -29,10 +29,6 @@
 <script>
 
 export default {
-    data() {
-      return{
-      }
-    },
     methods: {
       changeModalState() {
         this.$emit('changeState', true);

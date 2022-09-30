@@ -181,8 +181,20 @@ div.is-invalid span {
   color: #FF8181;
 }
 
+div input:active,
+div input:focus,
+div textarea:active,
+div textarea:focus,
+div select:active,
+div select:focus {
+  outline: none!important;
+  border-color: #b5b5b5!important;
+  box-shadow: none!important;
+}
+
 div.is-invalid input,
-div.is-invalid textarea {
+div.is-invalid textarea,
+div.is-invalid select {
   border: 1px #FF8181 solid;
 }
 
@@ -191,7 +203,8 @@ div.is-valid span {
 }
 
 div.is-valid input,
-div.is-invalid textarea  {
+div.is-valid textarea,
+div.is-valid select  {
   border: 1px #BCF5BC solid;
 }
 

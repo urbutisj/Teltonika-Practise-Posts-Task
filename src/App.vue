@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <app-header @changeState="updateAddModalState"/>
+    <app-header  @changeState="changeModalState"/>
     <app-new-post-modal 
       v-if="showAddModal" 
       @close="showAddModal = false" 
@@ -50,12 +50,15 @@
         }
     },
     methods: {
-      updateAddModalState(state) {
+      changeModalState(state) {
         this.showAddModal = state;
       },
       updateEditModalState(state) {
         this.showEditModal = state;
         this.postId = state;
+      },
+      getPostId() {
+
       },
       async fetchPosts() {
         try {
