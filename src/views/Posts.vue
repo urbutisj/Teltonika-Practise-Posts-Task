@@ -4,7 +4,7 @@
             <h1 class="title">Straipsniai</h1>
             <input type="text" v-model="search" class="input mb-3" placeholder="Straipsnių paiešką..."/>
             <div class="columns" v-if="posts.length > 0">
-                <div class="column post is-half" v-for = "post in pageOfItems" :key="post.id">
+                <div class="column post is-half" v-for = "post in currentPagePosts" :key="post.id" v-show="filteredBlogs.length > 1">
                     <post 
                         class="box" 
                         :fetchPosts="fetchPosts"  
@@ -14,13 +14,7 @@
                     />
                 </div>
                 <div class="pagination-row">
-                    <app-pagination 
-                        :items="filteredBlogs" 
-                        :pageSize="10"
-                        @changePage="onChangePage"
-                        :labels="customLabels"
-                        >
-                    </app-pagination>
+                    <pagination :filteredBlogs="filteredBlogs" :perPage="10" :currentPage="currentPage" @pagechanged="onPageChange"></pagination>
                 </div>
             </div>
             <div v-else>
@@ -33,41 +27,40 @@
 </template>
 
 <script>
-    import JwPagination from 'jw-vue-pagination';
+    import Pagination from '../components/Pagination.vue';
     import Post from '../components/Post.vue';
     import projectMixin from '../mixins/projectMixin';
-
-    const customLabels = {
-                first: "<<",
-                last: ">>",
-                previous: "<",
-                next: ">"
-    };
 
     export default {
         name: 'Posts',
         props: ['updateEditModalState', 'fetchPosts', 'posts'],
         components: {
             'post' : Post,
-            'app-pagination': JwPagination
+            'pagination' : Pagination
     },
     data() {
         return {
             search: '',
-            pageOfItems: [],
-            customLabels
-            
+            currentPage: 1,
+            postsPerPage: 10,
         }
     },
     methods: {
-        onChangePage(pageOfItems) {
-            this.pageOfItems = pageOfItems;
+        onPageChange(page) {
+            console.log(page)
+            this.currentPage = page;
+        }
+    },
+    computed: {
+    // computed property to set the items visible on current page
+        currentPagePosts() {
+            return this.filteredBlogs.slice((this.currentPage - 1) * this.postsPerPage, this.currentPage * this.postsPerPage)
         }
     },
     async mounted() {
         await this.fetchPosts();
-        
     },
+    
     mixins: [projectMixin ]
     
 };

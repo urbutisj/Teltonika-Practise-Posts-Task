@@ -47,7 +47,7 @@
   import moment from 'moment';
   export default {
     name: 'AddNewPost',
-    props: ['posts', 'postId', 'fetchPosts', 'fetchPostData', 'postData'],
+    props: [ 'postId', 'fetchPosts', 'fetchPostData', 'postData'],
     data() {
       return{
           id : this.postId,

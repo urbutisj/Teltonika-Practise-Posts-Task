@@ -13,7 +13,6 @@
     "axios": "^0.27.2",
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.9.4",
-    "jw-vue-pagination": "^1.0.3",
     "moment": "^2.29.4",
     "noty": "^3.2.0-beta-deprecated",
     "save": "^2.5.0",

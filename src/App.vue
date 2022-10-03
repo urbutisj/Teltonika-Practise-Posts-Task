@@ -11,7 +11,6 @@
       @close="showEditModal = false"
       :fetchPosts="fetchPosts"
       :fetchPostData="fetchPostData"
-      :posts="posts"  
       :postData="postData"
       :postId="postId"  
        />
