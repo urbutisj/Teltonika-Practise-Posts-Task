@@ -21,7 +21,7 @@
 
 </script>
 
-<style>
+<style scoped>
 footer {
     background: linear-gradient(90deg,#00203F 0%,rgba(0,41,82,0.97) 53.12%,rgba(0,58,115,0.96) 82.9%,rgba(0,74,151,0.96) 100%);
     padding: 1.5rem 1.5rem;

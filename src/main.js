@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import axios from 'axios';
 import babelPolyfill from 'babel-polyfill'
 import { ValidationObserver, ValidationProvider, extend, localize, configure } from 'vee-validate';
 import lt from 'vee-validate/dist/locale/lt.json';
@@ -9,6 +10,10 @@ import moment from 'moment';
 import Routes from './routes'
 
 Vue.use(VueRouter);
+
+//global API variable
+Vue.prototype.$axios = axios;
+Vue.prototype.$api_url = "http://localhost:3000";
 
 const router = new VueRouter({
   routes: Routes,

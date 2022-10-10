@@ -24,7 +24,7 @@
                     </div>
                   </ValidationProvider>
                   <div class="action-buttons">
-                    <button class="button is-primary" type="submit">
+                    <button class="button is-primary" type="submit" @click="emitResponse(true, 'Straipsnis atnaujintas sėkmingai!', 'is-primary')">
                       Išsaugoti
                     </button>
                     <button class="button" @click.prevent="$emit('close')">
@@ -42,8 +42,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
-  import notify from '../mixins/projectMixin'
   import moment from 'moment';
   export default {
     name: 'AddNewPost',
@@ -54,20 +52,20 @@
           customMessages: {
               titleMessage: 'Įrašykite straipsnio pavadinimą.',
               bodyMessage: 'Įkelkite turinio tekstą.',
-          },
+          }
       }
     },
     methods: {
       async put() {
         try {
-          await axios.put(`http://localhost:3000/posts/` + this.id, {
+          await this.$axios.put(this.$api_url + `/posts/` + this.id, {
               title: this.postData.title,
               body: this.postData.body,
               author: this.postData.author,
               created_at: this.postData.created_at,
               updated_at: moment().format('YYYY-MM-DD HH:mm:ss')
           });
-          this.notify('success', 'Straipsnis atnaujintas sėkmingai!');
+          // this.notify('success', 'Straipsnis atnaujintas sėkmingai!');
           if(this.$route.path == "/") {
               this.fetchPosts();
               console.log("Update from main page")
@@ -78,7 +76,6 @@
           this.close();
         } catch (e) {
           console.error(e);
-          this.notify('error', e.response.data.error);
         }
       },
       onSubmit () {
@@ -87,11 +84,13 @@
       close() {
         this.$emit('close');
       },
+      emitResponse(value, message, colour) {
+          this.$emit("confirmAction", {value, message, colour})
+      }
     },
     async created() {
         await this.fetchPostData(this.id);
     },
-    mixins: [notify]
   };
 </script>
 

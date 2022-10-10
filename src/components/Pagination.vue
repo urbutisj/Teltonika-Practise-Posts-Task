@@ -22,7 +22,7 @@
   export default {
     data() {
         return{
-            totalPages : Math.round(this.filteredBlogs.length / this.perPage)
+            totalPages : Math.ceil(this.filteredBlogs.length / this.perPage)
         }
         
     },
@@ -71,8 +71,8 @@
             for ( let i = this.startPage; i <= this.totalPages; i++
             ) {
                 range.push({
-                name: i,
-                isDisabled: i === this.currentPage
+                    name: i,
+                    isDisabled: i === this.currentPage
                 });
             }
 

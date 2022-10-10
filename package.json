@@ -14,7 +14,6 @@
     "babel-polyfill": "^6.26.0",
     "bulma": "^0.9.4",
     "moment": "^2.29.4",
-    "noty": "^3.2.0-beta-deprecated",
     "save": "^2.5.0",
     "vee-validate": "^3.4.14",
     "vue": "^2.5.11",

@@ -8,8 +8,10 @@
                     <post 
                         class="box" 
                         :fetchPosts="fetchPosts"  
-                        :post="post" 
-                        @changeState="updateEditModalState" 
+                        :post="post"
+                        :messageHandler = "messageHandler"
+                        @changeState="updateEditModalState"
+                        @confirmAction="messageHandler"
                         v-on:postId="updateEditModalState"
                     />
                 </div>
@@ -33,7 +35,7 @@
 
     export default {
         name: 'Posts',
-        props: ['updateEditModalState', 'fetchPosts', 'posts'],
+        props: ['updateEditModalState', 'fetchPosts', 'posts', 'messageHandler'],
         components: {
             'post' : Post,
             'pagination' : Pagination
@@ -47,12 +49,10 @@
     },
     methods: {
         onPageChange(page) {
-            console.log(page)
             this.currentPage = page;
         }
     },
     computed: {
-    // computed property to set the items visible on current page
         currentPagePosts() {
             return this.filteredBlogs.slice((this.currentPage - 1) * this.postsPerPage, this.currentPage * this.postsPerPage)
         }

@@ -37,7 +37,7 @@
                       </div>
                     </ValidationProvider>
                     <div class="action-buttons">
-                      <button class="button is-primary" type="submit">
+                      <button class="button is-primary" @click="emitResponse(true, 'Straipsnis sukurtas sėkmingai!', 'is-primary')" type="submit">
                         Išsaugoti
                       </button>
                       <button class="button" @click.prevent="$emit('close')">
@@ -54,7 +54,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import notify from '../mixins/projectMixin';
     import moment from 'moment';
     export default {
@@ -80,7 +79,7 @@
       methods: {
         async fetchAuthors() {
             try {
-                const authors_res = await axios.get(`http://localhost:3000/authors`);
+                const authors_res = await this.$axios.get(this.$api_url + `/authors`);
                 this.authors = authors_res.data;
                 console.log(this.authors);
             } catch (e) {
@@ -89,7 +88,7 @@
         },
         async post() {
           try {
-              await axios.post(`http://localhost:3000/posts`, {
+              await this.$axios.post(this.$api_url + `/posts`, {
                   title: this.blogpost.title,
                   body: this.blogpost.body,
                   author: this.blogpost.author,
@@ -102,12 +101,10 @@
               .catch(function (error) {
                   console.log(error);
               });
-              this.notify('success', 'Straipsnis sukurtas sėkmingai.');
               this.close();
               this.fetchPosts();
           } catch (e) {
               console.error(e);
-              this.notify('error', e.response.data.error);
           }
         },
         onSubmit () {
@@ -116,6 +113,9 @@
         close() {
           this.$emit('close');
         },
+        emitResponse(value, message, colour) {
+          this.$emit("confirmAction", {value, message, colour})
+        }
       },
       async created() {
         await this.fetchAuthors();

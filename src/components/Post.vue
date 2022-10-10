@@ -11,7 +11,7 @@
         <div class="action-buttons">
             <button @click="changeRoute('/blog-post/' + post.id)" class="button is-link" exact>Daugiau</button>
             <button class="button is-warning"  @click="changeModalState">Redaguoti</button>
-            <button type="button" class="button is-danger" @click="deletePost(post.id); ">Ištrinti</button>
+            <button type="button" class="button is-danger" @click="deletePost(post.id); emitResponse(true, 'Straipsnis ištrintas sėkmingai!', 'is-danger')">Ištrinti</button>
         </div>
     </div>
 </template>
@@ -33,6 +33,9 @@ export default {
         changeModalState() {
             this.$emit('changeState', true);
             this.$emit('postId', this.post.id);
+        },
+        emitResponse(value, message, colour) {
+          this.$emit("confirmAction", {value, message, colour})
         }
     },
     mixins: [projectMixins]
